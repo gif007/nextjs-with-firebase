@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useContext, createContext } from "react";
 import { initializeApp } from "firebase/app";
+import { getFirestore } from "firebase/firestore"
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 const AuthContext = createContext({});
 
@@ -11,9 +12,10 @@ const firebaseConfig = {
   messagingSenderId: "901675227818",
   appId: "1:901675227818:web:e70ae239d48451e9fb0ed3",
 };
+initializeApp(firebaseConfig);
+export const db = getFirestore();
 
 export const AuthProvider = ({ children }) => {
-  initializeApp(firebaseConfig);
   const [user, setUser] = useState(null);
   const auth = getAuth();
 
