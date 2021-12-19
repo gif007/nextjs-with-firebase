@@ -6,7 +6,16 @@ import { useAuth } from "../components/AuthProvider";
 import { getAllPokemon, addPokemon, removePokemon } from "../lib/firestore";
 
 
-export default function Home() {
+export async function getStaticProps() {
+  const allPokemon = await getAllPokemon();
+  const pokemon = allPokemon[0];
+  const welcomeMessage = `Hello from ${pokemon ? pokemon.name: 'Pokemon'}!`;
+  return {
+    props: {welcomeMessage}
+  }
+}
+
+export default function Home({welcomeMessage}) {
   const [pokedata, setPokedata] = useState({name: '', type: ''});
   const [isLoading, setIsLoading] = useState(false);
   const [allPokemon, setAllPokemon] = useState([]);
@@ -49,6 +58,7 @@ export default function Home() {
         <title>Next.js with Firebase</title>
       </Head>
       <main>
+        <h1>{welcomeMessage}</h1>
         {user ? (
           <button
             type="button"
