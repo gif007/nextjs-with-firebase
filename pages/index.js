@@ -3,13 +3,16 @@ import Head from "next/head";
 import Link from "next/link";
 import { getAuth, signOut } from "firebase/auth";
 import { useAuth } from "../components/AuthProvider";
-import { getAllPokemon, addPokemon, removePokemon } from "../lib/firestore";
+import { getAllPokemon, addPokemon, removePokemon, getSeasonalMessage } from "../lib/firestore";
 
 
 export async function getStaticProps() {
-  const allPokemon = await getAllPokemon();
-  const pokemon = allPokemon[0];
-  const welcomeMessage = `Hello from ${pokemon ? pokemon.name: 'Pokemon'}!`;
+  const welcomeMessage = await getSeasonalMessage("winter");
+  if (welcomeMessage === undefined) {
+    return {
+      props: {welcomeMessage: 'Welcome to the greatest store in the world!'}
+    }
+  }
   return {
     props: {welcomeMessage}
   }
@@ -21,9 +24,12 @@ export default function Home({welcomeMessage}) {
   const [allPokemon, setAllPokemon] = useState([]);
   const auth = getAuth();
   const { user } = useAuth();
+
   async function loadData() {
+    setIsLoading(true);
     const allPokemon = await getAllPokemon();
     setAllPokemon(allPokemon);
+    setIsLoading(false);
   }
   useEffect(() => {
     loadData();
@@ -42,14 +48,14 @@ export default function Home({welcomeMessage}) {
       return;
     }
     try {
-      setIsLoading(true);
       await addPokemon(pokedata);
       setPokedata({name: '', type: ''});
       loadData();
     } catch(err) {
       console.log(err);
     } finally {
-      setIsLoading(false);
+      const input = document.getElementById("name");
+      input.focus();
     }
   }
   return (
