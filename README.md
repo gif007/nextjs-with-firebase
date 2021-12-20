@@ -2,7 +2,7 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 
 ## Getting Started
 
-Create a firebase project and initialized it with email and password authentication and a firestore.
+Create a firebase project and initialize it with email and password authentication and a firestore.
 
 Create a file in the libs directory called firebaseConfig.js and export an object called firebaseConfig that you obtain from your firebase console.
 
