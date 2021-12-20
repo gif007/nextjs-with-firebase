@@ -2,7 +2,17 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 
 ## Getting Started
 
-First, run the development server:
+Create a firebase project and initialized it with email and password authentication and a firestore.
+
+Create a file in the libs directory called firebaseConfig.js and export an object called firebaseConfig that you obtain from your firebase console.
+
+Create a collection in your firestore called "pokemon".
+
+Optionally, create a collection called "seasonal" and populate it with objects that contain, in the least, a message string. Then update the mapping in firestore.js with your own unique document ids.
+
+For more help on getting started with Firebase check out [this](https://firebase.google.com/docs/web/setup) link.
+
+Run the development server:
 
 ```bash
 npm run dev
